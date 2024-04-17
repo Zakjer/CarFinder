@@ -43,7 +43,6 @@ min_mileage = 0
 max_mileage = 999999
 
 car_model = input('Please type the name of the car model that you want to search for: ')
-
 specify_data = input('Do you want to specify year of production and mileage? ("yes" or "no"): ')
 
 try:
@@ -68,11 +67,18 @@ while page_number < 5:
     mileage_elements = soup.find_all("div", class_="mileage")
     stock_elements = soup.find_all("p", class_="stock-type")
     price_elements = soup.find_all("span", class_="primary-price")
+    image_elements = soup.find_all("img", class_="vehicle-image")
 
     title = get_information(title_elements)
     mileage = get_information(mileage_elements)
     stock = get_information(stock_elements)
     price = get_information(price_elements)
+    image = []
+    for img in image_elements:
+        try:
+            image.append(img['data-src'])
+        except KeyError:
+            image.append(img['src'])
 
     for i in range(len(mileage_elements)-1):
         year, name = extract_year_and_name(title[i])
@@ -81,7 +87,7 @@ while page_number < 5:
         if mileage_value >= min_mileage and mileage_value <= max_mileage \
         and int(year) >= min_year and int(year) <= max_year:
             car_info = {'Name': name, 'Year': year, 'Mileage': mileage[i+1],
-                    'Stock': stock[i], 'Price': price[i]}
+                    'Stock': stock[i], 'Price': price[i], 'Image': image[i]}
             cars_info.append(car_info)
             filtered_price.append(price[i])
 
