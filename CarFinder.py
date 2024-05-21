@@ -82,7 +82,4 @@ def search_car(car_model, min_year=0, max_year=9999, min_mileage=0, max_mileage=
     else:
         print('No cars met the specified criteria. Make sure that the data you provided is correct')
 
-# The following block should be removed as the input should come from the GUI
-# if __name__ == "__main__":
-#     car_model = input('Please type the name of the car model that you want to search for: ')
-#     search_car(car_model)
+
