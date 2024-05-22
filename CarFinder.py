@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from random import randint 
 from time import sleep 
 from statistics import fmean
+import pandas as pd
 
 def get_information(informations):
     """Function for extracting information from html page"""
@@ -30,8 +31,13 @@ def average_car_price(price_string_list):
         return fmean(price_float_list)
     else:
         return None
+    
+def save_to_excel(car_model, car_data):
+    """Function for saving ouput in a excel file"""
+    df = pd.DataFrame(car_data)
+    df.to_excel(f'{car_model}.xlsx', index=False)
 
-def search_car(car_model, min_year=0, max_year=9999, min_mileage=0, max_mileage=999999):
+def search_car(car_model, min_year=0, max_year=9999, min_mileage=0, max_mileage=999999, create_excel_file=False):
     cars_info = []
     filtered_price = []
     page_number = 1
@@ -81,5 +87,8 @@ def search_car(car_model, min_year=0, max_year=9999, min_mileage=0, max_mileage=
         print(f'The average car price is: {round(average_price, 2)}$')
     else:
         print('No cars met the specified criteria. Make sure that the data you provided is correct')
+
+    if create_excel_file:
+        save_to_excel(car_model, cars_info)
 
 
